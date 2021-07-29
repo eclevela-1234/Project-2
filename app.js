@@ -74,21 +74,34 @@ function buildCharts(sample) {
         // console.log(otu_labels)
 
 
-        // Build bar chart
+
+
+//         // Build bar chart
         // Use slice to get the top ten data
+        // filteredDates.sort((a, b) => a - b);
         var yticks = filteredDates.map(loc => loc.Location);
         var netSales = filteredDates.map(sale => sale.Sales);
 
+        var netSalesnum = netSales.map((i) => parseFloat(i.replace(",","")));
+        console.log(netSalesnum)
 
 
+
+        
         console.log(yticks);
         console.log(netSales);
+
         var barData = [{
             y: yticks,
-            x: netSales.reverse(),
-            text: yticks.reverse(),
+            x: netSalesnum,
+            text: yticks,
             type: "bar",
             orientation: "h",
+            transforms: [{
+                type: 'sort',
+                target: 'x',
+                order: 'ascending'
+              }]
 
         }];
 
@@ -98,8 +111,12 @@ function buildCharts(sample) {
                 t: 30,
                 r: 0,
                 b: 30,
-                l: 75
+                l: 75                
             },
+            "xaxis": {
+                "categoryorder": "array",
+                "categoryarray": netSalesnum
+            }
 
         };
 
