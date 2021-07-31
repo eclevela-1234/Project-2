@@ -211,6 +211,11 @@ function buildCharts(sample) {
 };
 
 function init() {
+
+    var metricPulldown = ["Check_Ave", "Sales", "Item_count"]
+    console.log(metricPulldown);
+
+    
     var pullDownMenu = d3.select("#selDataset")
     d3.json("weatherdata.json").then(function (wData) {
         // console.log(wData);
