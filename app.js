@@ -76,18 +76,20 @@ function buildCharts(sample) {
 
 
 
-//         // Build bar chart
+        //         // Build bar chart
         // Use slice to get the top ten data
         // filteredDates.sort((a, b) => a - b);
         var yticks = filteredDates.map(loc => loc.Location);
         var netSales = filteredDates.map(sale => sale.Sales);
 
-        var netSalesnum = netSales.map((i) => parseFloat(i.replace(",","")));
+        const netSalesnum = netSales.map((i) => parseFloat(i.replace(",", "")));
         console.log(netSalesnum)
+        const itemCountnum = filteredDates.map (item => item.Item_Count)
+        console.log (itemCountnum)
 
 
 
-        
+
         console.log(yticks);
         console.log(netSales);
 
@@ -101,17 +103,17 @@ function buildCharts(sample) {
                 type: 'sort',
                 target: 'x',
                 order: 'ascending'
-              }]
+            }]
 
         }];
 
         barLayout = {
-            title: "Net Sales",
+            title: "Net Sales ($)",
             margin: {
                 t: 30,
                 r: 0,
                 b: 30,
-                l: 75                
+                l: 75
             },
             "xaxis": {
                 "categoryorder": "array",
@@ -125,40 +127,73 @@ function buildCharts(sample) {
 
         Plotly.newPlot("bar", barData, barLayout);
 
-        // // Build bubble chart
+        // Build bubble chart
 
-        // var bubbleData = [{
-        //     x: otu_ids,
-        //     y: sample_values,
+        d3.csv("LocationCoords.csv").then(Cdata => {
 
-        //     text: otu_labels,
-        //     mode: "markers",
-        //     marker: {
-        //         size: sample_values,
-        //         color: otu_ids,
-        //         colorscale: "Earth"
-        //     },
+            console.log(Cdata)
 
-        //     orientation: "h",
-        // }];
+            // Parse x/y coords
+            var xCoords = Cdata.map(Coords => Coords.Long)
+            console.log(xCoords)
+            var yCoords = Cdata.map(Coords => Coords.Lat)
+            console.log(yCoords)
+            var clocs = Cdata.map(Coords => Coords.Location)
+            console.log(clocs)
 
-        // var bubbleLayout = {
-        //     title: "Bacteria Cultures Per Sample",
-        //     margin: {
-        //         t: 30,
-        //         r: 10,
-        //         b: 30,
-        //         l: 75,
-        //     },
-        //     hovermode: "closest",
-        //     xaxis: { title: "OTU ID" },
-        // };
+            // var netSales = filteredDates.map(sale => sale.Sales);
 
 
-        // Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+            // var filteredDates = Sdata.filter(day => day.Date == sample);
+            // console.log(filteredDates)
+
+            // var yticks = filteredDates.map(loc => loc.Location);
+            // var netSales = filteredDates.map(sale => sale.Sales);    
+            var bubbleData = [{
+                x: xCoords,
+                y: yCoords,
+
+                text: clocs,
+                mode: "markers",
+                marker: {
+                    size: {itemCountnum} / 10,
+                    color: clocs,
+                    colorscale: "Earth"
+                },
+
+                orientation: "h",
+            }];
+
+            var bubbleLayout = {
+                title: "Total Item Sales (count)",
+                margin: {
+                    t: 30,
+                    r: 10,
+                    b: 30,
+                    l: 75,
+                },
+                hovermode: "closest",
+                xaxis: { title: "Location" },
+                images: [      {
+                    "source": "CampusMap.png",
+                    "xref": "x",
+                    "yref": "y",
+                    "x": 1,
+                    "y": 3,
+                    "sizex": 2,
+                    "sizey": 2,
+                    "sizing": "stretch",
+                    "opacity": 0.4,
+                    "layer": "below"
+                  },
+                ]
+            };
 
 
+            Plotly.newPlot("bubble", bubbleData, bubbleLayout);
 
+
+        });
 
 
 
