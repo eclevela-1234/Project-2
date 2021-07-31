@@ -18,6 +18,7 @@ function buildWdata(sample) {
         console.log(filteredData);
         var result = filteredData[0];
         console.log(result);
+        var datee = result.DATE;
         //     var washFreq = result.wfreq;
         //     console.log(washFreq);
 
@@ -36,6 +37,9 @@ function buildWdata(sample) {
 
         //     var gaugeLayout = { width: 600, height: 400 };
         //     Plotly.newPlot('gauge', gaugeData, gaugeLayout);
+        var datehead = d3.select(".dateheader");
+        datehead.text(`Business Date: ${datee}`);
+
 
         var panel = d3.select("#weather-Data");
 
@@ -51,6 +55,8 @@ function buildWdata(sample) {
 };
 
 function buildCharts(sample) {
+
+
     d3.json("salesdata.json").then(Sdata => {
         console.log(Sdata);
         // parse data out to variables
