@@ -196,7 +196,7 @@ function buildCharts(sample) {
             };
 
 
-            Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+            // Plotly.newPlot("bubble", bubbleData, bubbleLayout);
 
 
         });
