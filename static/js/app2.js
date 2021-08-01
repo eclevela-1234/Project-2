@@ -1,4 +1,4 @@
-const parser = d3.timeParse("%m/%d/%Y");
+const parser = d3.timeParse("%m/%d");
 
 // d3.json("weatherdata.json").then(data => {
 //     console.log(data);
@@ -57,7 +57,7 @@ const parser = d3.timeParse("%m/%d/%Y");
 function buildCharts(location) {
 
 
-    d3.json("../data/salesdata.json").then(Sdata => {
+    d3.json("../data/Sortedsalesdata.json").then(Sdata => {
 
         // parse data out to variables
         // * Use `sample_values` as the values for the bar chart.
@@ -65,44 +65,58 @@ function buildCharts(location) {
         // * Use `otu_labels` as the hovertext for the chart.
         Sdata.Date = parser(Sdata.Date);
 
-        console.log(Sdata);
+
+
         // var dailySales = Sdata;
         // console.log(dailySales);
         const filteredData = Sdata.filter(loc => loc.Location == location);
 
-        // var resultsArray = samples.filter(sampleObj => sampleObj.Date == sample);
-        // var result = resultsArray[0];
+        // Filter Yearly Data
+        var year1 = filteredData.filter(year => year.Year == 1718);
+        var year1x = year1.map(date => date.Date);
+        var year1y = year1.map(sales => sales.Sales);
 
-        // console.log(result);
-        // var sample_values = result.sample_values;
-        // console.log(sample_values)
-        // var otu_ids = result.otu_ids;
-        // console.log(otu_ids)
-        // var otu_labels = result.otu_labels;
-        // console.log(otu_labels)
+        var year2 = filteredData.filter(year => year.Year == 1819);
+        var year2y = year2.map(sales2 => sales2.Sales);
+      
+        var year3 = filteredData.filter(year => year.Year == 1920);  
+        var year3y = year3.map(sales => sales.Sales);
 
+        var year4 = filteredData.filter(year => year.Year == 2021);
+        var year4y = year4.map(sales2 => sales2.Sales);
 
-        var xCoords = filteredData.map(date => (date.Date));
-        console.log(xCoords);
-        var yCoords = filteredData.map(location => location.Sales);
-        console.log(yCoords);
-        // var year1 = filteredData.filter(year => year.Year == 1718);
-        // console.log(year1);
-        // var year1x = year1.map(date => date.DATE);
 
         // console.log(year1x);
 
         //         // Build bar chart
         // Use slice to get the top ten data
         // filteredData.sort((a, b) => a - b);
-      var trace1 = {
-          x: xCoords,
-          y: yCoords,
-          mode: 'Scatter + Lines'
-      };
-      var data = [trace1];
+        var trace1 = {
+            x: year1x,
+            y: year1y,
+            mode: 'lines'
+        };
 
 
+        var trace2 = {
+            x: year1x,
+            y: year2y,
+            mode: 'lines'
+        };
+        var trace3 = {
+            x: year1x,
+            y: year3y,
+            mode: 'lines'
+        };
+
+
+        var trace4 = {
+            x: year1x,
+            y: year4y,
+            mode: 'lines'
+        };
+
+        var data = [trace1, trace2, trace3, trace4];
 
 
 
