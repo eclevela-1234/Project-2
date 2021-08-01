@@ -12,7 +12,7 @@ function buildWdata(sample) {
 
 
 
-    d3.json("weatherdata.json").then(wdata => {
+    d3.json("static/data/weatherdata.json").then(wdata => {
 
         var filteredData = wdata.filter(day => day.DATE == sample);
         console.log(filteredData);
@@ -54,10 +54,10 @@ function buildWdata(sample) {
     });
 };
 
-function buildCharts(sample) {
+function buildCharts(sample, metric) {
 
 
-    d3.json("salesdata.json").then(Sdata => {
+    d3.json("static/data/salesdata.json").then(Sdata => {
         console.log(Sdata);
         // parse data out to variables
         // * Use `sample_values` as the values for the bar chart.
@@ -66,7 +66,7 @@ function buildCharts(sample) {
 
         // var dailySales = Sdata;
         // console.log(dailySales);
-        var filteredDates = Sdata.filter(day => day.Date == sample);
+        const filteredDates = Sdata.filter(day => day.Date == sample);
         console.log(filteredDates)
         // var resultsArray = samples.filter(sampleObj => sampleObj.Date == sample);
         // var result = resultsArray[0];
@@ -87,11 +87,11 @@ function buildCharts(sample) {
         // filteredDates.sort((a, b) => a - b);
         var yticks = filteredDates.map(loc => loc.Location);
         var netSales = filteredDates.map(sale => sale.Sales);
-
-        const netSalesnum = netSales.map((i) => parseFloat(i.replace(",", "")));
-        console.log(netSalesnum)
+        console.log(netSales)
+        // const netSalesnum = netSales.map((i) => parseFloat(i.replace(",", "")));
+        // console.log(netSalesnum)
         const itemCountnum = filteredDates.map (item => item.Item_Count)
-        console.log (itemCountnum)
+        // console.log (itemCountnum)
 
 
 
@@ -101,7 +101,7 @@ function buildCharts(sample) {
 
         var barData = [{
             y: yticks,
-            x: netSalesnum,
+            x: netSales,
             text: yticks,
             type: "bar",
             orientation: "h",
@@ -123,7 +123,7 @@ function buildCharts(sample) {
             },
             "xaxis": {
                 "categoryorder": "array",
-                "categoryarray": netSalesnum
+                "categoryarray": netSales
             }
 
         };
@@ -135,7 +135,7 @@ function buildCharts(sample) {
 
         // Build bubble chart
 
-        d3.csv("LocationCoords.csv").then(Cdata => {
+        d3.csv("static/data/LocationCoords.csv").then(Cdata => {
 
             console.log(Cdata)
 
@@ -215,9 +215,9 @@ function init() {
     var metricPulldown = ["Check_Ave", "Sales", "Item_count"]
     console.log(metricPulldown);
 
-    
+
     var pullDownMenu = d3.select("#selDataset")
-    d3.json("weatherdata.json").then(function (wData) {
+    d3.json("static/data/weatherdata.json").then(function (wData) {
         // console.log(wData);
         var days = wData.map(data => data.DATE)
 
@@ -235,12 +235,16 @@ function init() {
     });
 
     buildWdata("9/1/2017");
-    buildCharts("9/1/2017");
+    buildCharts("9/1/2017", "Sales");
 }
 
-function optionChanged(nextSample) {
+function optionChanged(nextSample, nextMetric) {
     buildWdata(nextSample);
-    buildCharts(nextSample);
+    buildCharts(nextSample, nextMetric);
+}
+function metricChanged(nextSample, nextMetric) {
+    buildWdata(nextSample);
+    buildCharts(nextSample, nextMetric);
 }
 init();
 
