@@ -1,7 +1,7 @@
 #weatherpanel {
     border: solid;
     border:black;
-    border: 2px;
+    border-width: 2px;
 
 
 };
