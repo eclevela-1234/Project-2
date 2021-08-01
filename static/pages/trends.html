@@ -60,7 +60,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 jumbotron text-center">
-                <h1>Business Metrics by Location</h1>
+                <h1>Periodic Metric Comparisons</h1>
                 <h3 class="dateheader">Use the interactive charts below to explore the dataset</h3>
             </div>
         </div>
@@ -69,7 +69,7 @@
             <div class="col-md-9">
                 <div id="MetricPanel" class="well">
                     <h5>Select Locations:</h5>
-                    <select id="Metric" onchange="metricChanged(this.value)">
+                    <select id="Metric" onchange="locationChanged(this.value)">
                         <option value="ETC">ETC</option>
                         <option value="8:15">8:15</option>
                         <option value="Passport">Passport</option>
@@ -85,7 +85,7 @@
             </div>
             <div class="col-md-3">
                 <div id="weatherpanel" class="well">
-                    <h5>Select Date:</h5>
+                    <h5>Select a Metric:</h5>
                     <select id="selDataset" onchange="optionChanged(this.value)"></select>
                 </div>
                 <div class="panel panel-primary">

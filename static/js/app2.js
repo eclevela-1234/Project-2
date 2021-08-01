@@ -94,26 +94,30 @@ function buildCharts(location) {
         var trace1 = {
             x: year1x,
             y: year1y,
-            mode: 'lines'
+            mode: 'lines',
+            name: 'FY 17-18'
         };
 
 
         var trace2 = {
             x: year1x,
             y: year2y,
-            mode: 'lines'
+            mode: 'lines',
+            name: 'FY 18-19'
         };
         var trace3 = {
             x: year1x,
             y: year3y,
-            mode: 'lines'
+            mode: 'lines',
+            name: 'FY 19-20'
         };
 
 
         var trace4 = {
             x: year1x,
             y: year4y,
-            mode: 'lines'
+            mode: 'lines',
+            name: 'FY 20-21'
         };
 
         var data = [trace1, trace2, trace3, trace4];
@@ -162,7 +166,7 @@ function init() {
     buildCharts("ETC");
 }
 
-function metricChanged(nextLocation) {
+function locationChanged(nextLocation) {
     // buildWdata(nextSample);
     buildCharts(nextLocation);
 }
