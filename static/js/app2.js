@@ -66,7 +66,19 @@ function buildCharts(location, metric) {
         }
 
         Plotly.newPlot("line", data, barLayout);
+       
+        //  calculate stats data - My feeble attempt, bwahahahahaha
+        // function mean(arr) {
+        //     var total = 0;
+        //     for (var i = 0; i < arr.length; i++) {
+        //         total += arr[i];
+        //     }
+        //     var meanValue = total / arr.length;
 
+        //     return meanValue;
+        // }
+        // var MeanData = parseFloat(year1y);
+        // console.log(mean(MeanData));
     });
 
 
