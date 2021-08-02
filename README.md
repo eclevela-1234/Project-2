@@ -14,7 +14,7 @@ Our goal was to visualize real historical sales data to provide new and quanitat
 
 ### Data Cleaning and Loading
 - Sales data was relatively clean. Unnecessary fields were removed, and table headers renamed, using excel and saved as CSV. 
-- The data was then loaded into a Jupyter notebook file where it was processed into various formats (JSON (record orientation) and HTML table data).
+- The data was then loaded into a Jupyter notebook file where it was processed into various formats (JSON (record orientation) and HTML table data) using Pandas methods.
 - Location coordinates were compiled using google.
  
 ### Visualization
@@ -28,8 +28,8 @@ Our goal was to visualize real historical sales data to provide new and quanitat
 - More business metrics, periodic statistical data.
 - Streamlined data loading process for "realtime" data.
 - Weather data turned out to be useful but more info was needed, possibly a weather headline scraper???
-- There were a few gremlins in the data that require
-- Some user aids.
+- There were a few gremlins in the data that require further attention.
+- Some formatting & user aids.
 
 ### Concepts Applied/Learned
 - Data Munging, Excel, Python, Pandas, HTML, CSS, JS, D3
