@@ -1,5 +1,13 @@
-const parser = d3.timeParse("%m/%d");
 
+
+function filterData(location, metric){
+const parser = d3.timeParse("%m/%d");
+    d3.json("../data/Sortedsalesdata.json").then(Sdata => {
+
+
+    });
+    
+}
 
 function buildCharts(location, metric) {
 
@@ -21,16 +29,16 @@ function buildCharts(location, metric) {
         // Filter Yearly Data
         var year1 = filteredData.filter(year => year.Year == 1718);
         var year1x = year1.map(date => date.Date);
-        var year1y = year1.map(sales => sales[metric]);
+        var year1y = year1.map(sales => sales.Sales);
 
         var year2 = filteredData.filter(year => year.Year == 1819);
-        var year2y = year2.map(sales2 => sales2[metric]);
-
-        var year3 = filteredData.filter(year => year.Year == 1920);
-        var year3y = year3.map(sales => sales[metric]);
+        var year2y = year2.map(sales2 => sales2.Sales);
+      
+        var year3 = filteredData.filter(year => year.Year == 1920);  
+        var year3y = year3.map(sales => sales.Sales);
 
         var year4 = filteredData.filter(year => year.Year == 2021);
-        var year4y = year4.map(sales2 => sales2[metric]);
+        var year4y = year4.map(sales2 => sales2.Sales);
 
 
         // console.log(year1x);
@@ -89,39 +97,24 @@ function buildCharts(location, metric) {
 
 function init() {
 
-    const location = "ETC";
-    const metric = "Sales";
+const location = "ETC";
+const metric = "Sales";
     // buildWdata("9/1/2017");
     buildCharts(location, metric);
 }
 
-// function optionChanged(nextLocation, nextMetric) {
-
-document.getElementById('submit').onclick = function () {
-    var selected = [];
-    for (var option of document.getElementById('Location').options) {
-        if (option.selected) {
-            selected.push(option.value);
-        }
-    }
-    for (var option of document.getElementById('Metric').options) {
-        if (option.selected) {
-            selected.push(option.value);
-        }
-    }
-    // console.log(selected[1]);
-
-    buildCharts(selected[0], selected[1]);
+function optionChanged(nextMetric) {
+const metric = nextMetric;
+console.log(metric)
+console.log(location)
+buildCharts(location, metric);
 }
 
-
-// buildCharts(nextLocation, nextMetric);
-// }
-
-// function locationChanged(nextLocation, nextMetric) {
-
-//     buildCharts(nextLocation, nextMetric);
-// }
+function locationChanged(nextLocation) {
+const location = nextLocation
+    console.log(location)
+    buildCharts(nextLocation);
+}
 init();
 
 

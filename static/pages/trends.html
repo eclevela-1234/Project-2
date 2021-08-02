@@ -67,9 +67,10 @@
 
         <div class="row">
             <div class="col-md-9">
-                <div id="MetricPanel" class="well">
+                <div id="LocationPanel" class="well">
                     <h5>Select Locations:</h5>
-                    <select id="Metric" onchange="locationChanged(this.value)">
+                    <!-- <select id="Location" onchange="locationChanged(this.value)"> -->
+                    <select id="Location">
                         <option value="ETC">ETC</option>
                         <option value="8:15">8:15</option>
                         <option value="Passport">Passport</option>
@@ -84,16 +85,21 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div id="weatherpanel" class="well">
+                <div id="Metricpanel" class="well">
                     <h5>Select a Metric:</h5>
-                    <select id="selDataset" onchange="optionChanged(this.value)"></select>
+                    <!-- <select id="Metric" onchange="optionChanged(this.value)"> -->
+                    <select id="Metric">
+                        <option value="Sales">Net Sales</option>
+                        <option value="Check_Ave">Average Check</option>
+                        <option value="Item_Count">Total Item Sales</option>
+                    </select>
                 </div>
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h1>_____________</h1>
-                        <h3 class="panel-title">Weather Info</h3>
-                    </div>
-                    <div id="weather-Data" class="panel-body"></div>
+
+                </div>
+                <div><h5><br>Select Location<br>then Metric: </h5>
+
+                    <button id="submit">Calculate</button>
                 </div>
             </div>
 
