@@ -3,14 +3,17 @@ function buildWdata(metric, sample) {
 
 
 
-
+    // Build Weather data panel
     d3.json("../data/weatherdata.json").then(wdata => {
 
         var filteredData = wdata.filter(day => day.DATE == sample);
         var result = filteredData[0];
         var datee = result.DATE;
         var datehead = d3.select(".dateheader");
+
+        // populate date header
         datehead.text(`Business Date: ${datee}`);
+
         var panel = d3.select("#weather-Data");
 
         // ensure the panel is clear
@@ -23,14 +26,13 @@ function buildWdata(metric, sample) {
         });
     });
 
+    // Data filtered first by date, then field is selected using "metric" variable
     d3.json("../data/salesdata.json").then(Sdata => {
 
         const filteredDates = Sdata.filter(day => day.Date == sample);
 
         var yticks = filteredDates.map(loc => loc.Location);
         var netSales = filteredDates.map(sale => sale[metric]);
-
-        const itemCountnum = filteredDates.map(item => item[metric])
 
         var barData = [{
             y: yticks,
@@ -66,31 +68,16 @@ function buildWdata(metric, sample) {
 
         Plotly.newPlot("bar", barData, barLayout);
 
-        // Build bubble chart
-
-
-
-
-  
-
-
-
-
-
-
-
     });
-    // };
 };
 function init() {
 
 
     var pullDownMenu = d3.select("#selDataset")
     d3.json("../data/weatherdata.json").then(function (wData) {
-        // console.log(wData);
+
+        // Parse dates for date dropdown
         var days = wData.map(data => data.DATE)
-
-
 
         days.forEach((day) => {
             pullDownMenu
@@ -99,14 +86,12 @@ function init() {
                 .text(day);
 
         })
-
-
     });
 
-    // buildWdata("9/1/2017");
     buildWdata("Sales", "9/1/2017");
 }
 
+// Event listener for calculate button
 document.getElementById('submit').onclick = function () {
     var selected = [];
     for (var option of document.getElementById('Metric').options) {
