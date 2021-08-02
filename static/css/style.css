@@ -1,7 +1,5 @@
-#weatherpanel {
-    border: solid;
-    border:black;
-    border-width: 2px;
-
+footer {
+    text-align: center;
+    margin-top: 40px;
 
 };
