@@ -1,13 +1,5 @@
 
-
-// d3.json("weatherdata.json").then(data => {
-//     console.log(data);
-//     var metadata = data.metadata;
-//     console.log(metadata);
-// })
-
-
-function buildWdata(sample) {
+function buildWdata(metric, sample) {
 
 
 
@@ -15,32 +7,10 @@ function buildWdata(sample) {
     d3.json("static/data/weatherdata.json").then(wdata => {
 
         var filteredData = wdata.filter(day => day.DATE == sample);
-        console.log(filteredData);
         var result = filteredData[0];
-        console.log(result);
         var datee = result.DATE;
-        //     var washFreq = result.wfreq;
-        //     console.log(washFreq);
-
-        //     // build indicator/gauge
-
-        //     var gaugeData = [
-        //       {
-        //         domain: { x: [0, 1], y: [0, 1] },
-        //         value: washFreq,
-        //         title: { text: "Belly Button Wash Frequency <br> Scrubs Per Week" },
-        //         type: "indicator",
-        //         mode: "gauge+number",
-        //         gauge: { axis: { range: [null, 9] } }
-        //       }
-        //     ];
-
-        //     var gaugeLayout = { width: 600, height: 400 };
-        //     Plotly.newPlot('gauge', gaugeData, gaugeLayout);
         var datehead = d3.select(".dateheader");
         datehead.text(`Business Date: ${datee}`);
-
-
         var panel = d3.select("#weather-Data");
 
         // ensure the panel is clear
@@ -52,52 +22,15 @@ function buildWdata(sample) {
             panel.append("h5").text(`${key}: ${value}`);
         });
     });
-};
-
-function buildCharts(sample, metric) {
-
 
     d3.json("static/data/salesdata.json").then(Sdata => {
-        console.log(Sdata);
-        // parse data out to variables
-        // * Use `sample_values` as the values for the bar chart.
-        // * Use `otu_ids` as the labels for the bar chart.
-        // * Use `otu_labels` as the hovertext for the chart.
 
-        // var dailySales = Sdata;
-        // console.log(dailySales);
         const filteredDates = Sdata.filter(day => day.Date == sample);
-        console.log(filteredDates)
-        // var resultsArray = samples.filter(sampleObj => sampleObj.Date == sample);
-        // var result = resultsArray[0];
 
-        // console.log(result);
-        // var sample_values = result.sample_values;
-        // console.log(sample_values)
-        // var otu_ids = result.otu_ids;
-        // console.log(otu_ids)
-        // var otu_labels = result.otu_labels;
-        // console.log(otu_labels)
-
-
-
-
-        //         // Build bar chart
-        // Use slice to get the top ten data
-        // filteredDates.sort((a, b) => a - b);
         var yticks = filteredDates.map(loc => loc.Location);
-        var netSales = filteredDates.map(sale => sale.Sales);
-        console.log(netSales)
-        // const netSalesnum = netSales.map((i) => parseFloat(i.replace(",", "")));
-        // console.log(netSalesnum)
-        const itemCountnum = filteredDates.map (item => item.Item_Count)
-        // console.log (itemCountnum)
+        var netSales = filteredDates.map(sale => sale[metric]);
 
-
-
-
-        console.log(yticks);
-        console.log(netSales);
+        const itemCountnum = filteredDates.map(item => item[metric])
 
         var barData = [{
             y: yticks,
@@ -114,7 +47,7 @@ function buildCharts(sample, metric) {
         }];
 
         barLayout = {
-            title: "Net Sales ($)",
+            title: metric,
             margin: {
                 t: 30,
                 r: 0,
@@ -137,24 +70,12 @@ function buildCharts(sample, metric) {
 
         d3.csv("static/data/LocationCoords.csv").then(Cdata => {
 
-            console.log(Cdata)
 
             // Parse x/y coords
             var xCoords = Cdata.map(Coords => Coords.Long)
-            console.log(xCoords)
             var yCoords = Cdata.map(Coords => Coords.Lat)
-            console.log(yCoords)
             var clocs = Cdata.map(Coords => Coords.Location)
-            console.log(clocs)
-
-            // var netSales = filteredDates.map(sale => sale.Sales);
-
-
-            // var filteredDates = Sdata.filter(day => day.Date == sample);
-            // console.log(filteredDates)
-
-            // var yticks = filteredDates.map(loc => loc.Location);
-            // var netSales = filteredDates.map(sale => sale.Sales);    
+  
             var bubbleData = [{
                 x: xCoords,
                 y: yCoords,
@@ -162,7 +83,7 @@ function buildCharts(sample, metric) {
                 text: clocs,
                 mode: "markers",
                 marker: {
-                    size: {itemCountnum} / 10,
+                    size: { itemCountnum } / 10,
                     color: clocs,
                     colorscale: "Earth"
                 },
@@ -180,7 +101,7 @@ function buildCharts(sample, metric) {
                 },
                 hovermode: "closest",
                 xaxis: { title: "Location" },
-                images: [      {
+                images: [{
                     "source": "CampusMap.png",
                     "xref": "x",
                     "yref": "y",
@@ -191,7 +112,7 @@ function buildCharts(sample, metric) {
                     "sizing": "stretch",
                     "opacity": 0.4,
                     "layer": "below"
-                  },
+                },
                 ]
             };
 
@@ -208,8 +129,8 @@ function buildCharts(sample, metric) {
 
 
     });
+    // };
 };
-
 function init() {
 
 
@@ -231,18 +152,27 @@ function init() {
 
     });
 
-    buildWdata("9/1/2017");
-    buildCharts("9/1/2017", "Sales");
+    // buildWdata("9/1/2017");
+    buildWdata("Sales", "9/1/2017");
 }
 
-function optionChanged(nextSample, nextMetric) {
-    buildWdata(nextSample);
-    buildCharts(nextSample, nextMetric);
+document.getElementById('submit').onclick = function () {
+    var selected = [];
+    for (var option of document.getElementById('Metric').options) {
+        if (option.selected) {
+            selected.push(option.value);
+        }
+    }
+    for (var option of document.getElementById('selDataset').options) {
+        if (option.selected) {
+            selected.push(option.value);
+        }
+    }
+    console.log(selected);
+
+    buildWdata(selected[0], selected[1]);
 }
-function metricChanged(nextSample, nextMetric) {
-    buildWdata(nextSample);
-    buildCharts(nextSample, nextMetric);
-}
+
 init();
 
 

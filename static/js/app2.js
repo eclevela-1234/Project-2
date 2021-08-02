@@ -68,10 +68,17 @@ function buildCharts(location, metric) {
         };
 
         var data = [trace1, trace2, trace3, trace4];
+        barLayout = {
+            title: metric,
+            margin: {
+                t: 30,
+                r: 0,
+                b: 80,
+                l: 75
+            },
+        }
 
-
-
-        Plotly.newPlot("line", data);
+        Plotly.newPlot("line", data, barLayout);
 
         // Build bubble chart
 
@@ -81,7 +88,8 @@ function buildCharts(location, metric) {
 
 
 
-
+    var datehead = d3.select(".dateheader");
+    datehead.text(`Location: ${location} ---> Metric: ${metric}`);
 
 
 
