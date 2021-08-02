@@ -4,7 +4,7 @@ function buildWdata(metric, sample) {
 
 
 
-    d3.json("static/data/weatherdata.json").then(wdata => {
+    d3.json("../data/weatherdata.json").then(wdata => {
 
         var filteredData = wdata.filter(day => day.DATE == sample);
         var result = filteredData[0];
@@ -23,7 +23,7 @@ function buildWdata(metric, sample) {
         });
     });
 
-    d3.json("static/data/salesdata.json").then(Sdata => {
+    d3.json("../data/salesdata.json").then(Sdata => {
 
         const filteredDates = Sdata.filter(day => day.Date == sample);
 
@@ -68,59 +68,10 @@ function buildWdata(metric, sample) {
 
         // Build bubble chart
 
-        d3.csv("static/data/LocationCoords.csv").then(Cdata => {
 
 
-            // Parse x/y coords
-            var xCoords = Cdata.map(Coords => Coords.Long)
-            var yCoords = Cdata.map(Coords => Coords.Lat)
-            var clocs = Cdata.map(Coords => Coords.Location)
+
   
-            var bubbleData = [{
-                x: xCoords,
-                y: yCoords,
-
-                text: clocs,
-                mode: "markers",
-                marker: {
-                    size: { itemCountnum } / 10,
-                    color: clocs,
-                    colorscale: "Earth"
-                },
-
-                orientation: "h",
-            }];
-
-            var bubbleLayout = {
-                title: "Total Item Sales (count)",
-                margin: {
-                    t: 30,
-                    r: 10,
-                    b: 30,
-                    l: 75,
-                },
-                hovermode: "closest",
-                xaxis: { title: "Location" },
-                images: [{
-                    "source": "CampusMap.png",
-                    "xref": "x",
-                    "yref": "y",
-                    "x": 1,
-                    "y": 3,
-                    "sizex": 2,
-                    "sizey": 2,
-                    "sizing": "stretch",
-                    "opacity": 0.4,
-                    "layer": "below"
-                },
-                ]
-            };
-
-
-            // Plotly.newPlot("bubble", bubbleData, bubbleLayout);
-
-
-        });
 
 
 
@@ -135,7 +86,7 @@ function init() {
 
 
     var pullDownMenu = d3.select("#selDataset")
-    d3.json("static/data/weatherdata.json").then(function (wData) {
+    d3.json("../data/weatherdata.json").then(function (wData) {
         // console.log(wData);
         var days = wData.map(data => data.DATE)
 
